@@ -1,6 +1,10 @@
 import { Model, HandlerTypes } from "axe-api";
 
 class MainGrade extends Model {
+  get handlers() {
+    return [HandlerTypes.PAGINATE];
+  }
+
   get fillable () {
     return ["description"];
   }

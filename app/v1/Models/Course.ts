@@ -2,7 +2,7 @@ import { HandlerTypes, HttpMethods, Model } from "axe-api";
 
 class MainCourse extends Model {
   get handlers() {
-    return [HandlerTypes.PAGINATE, HandlerTypes.INSERT, HandlerTypes.UPDATE, HandlerTypes.DELETE];
+    return [HandlerTypes.PAGINATE, HandlerTypes.INSERT, HandlerTypes.UPDATE, HandlerTypes.DELETE, HandlerTypes.SHOW];
   }
 
   get fillable() {
@@ -15,7 +15,7 @@ class MainCourse extends Model {
   get validations() {
     return {
       [HttpMethods.POST]: {
-        name: "required",
+        name: "required|string",
         grade_id: "required|numeric|min:1",
         category_id: "required|numeric|min:1",
       },
@@ -26,6 +26,10 @@ class MainCourse extends Model {
         is_active: "boolean"
       },
     }
+  }
+
+  get hiddens() {
+    return ["created_at", "updated_at", "is_active","grade_id","category_id"]
   }
 
   grades() {
