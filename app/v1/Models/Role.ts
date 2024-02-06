@@ -1,15 +1,30 @@
-import { Model } from "axe-api";
+import { HandlerTypes, HttpMethods, Model } from "axe-api";
 
 class MainRole extends Model {
+  get handlers() {
+    return [HandlerTypes.PAGINATE, HandlerTypes.INSERT,HandlerTypes.UPDATE, HandlerTypes.DELETE]
+  }
+  
   get fillable() {
-    return ["role_name","role_description","min_authority_level"];
+    return {
+      [HttpMethods.POST]: ["role_name","role_description","min_authority_level"],
+      [HttpMethods.PUT]: ["role_name","role_description","min_authority_level", "is_active"],
+    }
   }
   
   get validations() {
     return {
-      role_name: "required",
-      role_description: "required",
-      min_authority_level: "min:1"
+      [HttpMethods.POST]: {
+        role_name: "required|string",
+        role_description: "required|string",
+        min_authority_level: "numeric|min:1"
+      },
+      [HttpMethods.PUT]: {
+        role_name: "string",
+        role_description: "string",
+        min_authority_level: "numeric|min:1",
+        is_active: "boolean",
+      }
     }
   }
 
